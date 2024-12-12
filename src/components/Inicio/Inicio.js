@@ -167,15 +167,21 @@ export default function Inicio() {
             <div className="flex-1 flex flex-col justify-center">
               <h3 className="text-xl sm:text-2xl font-semibold mb-4">Restaurante Don Antonio</h3>
               <p className="text-gray-400 mb-4">
-                Av. René Juárez Cisneros 62, Ciudad de los Servicios,<br />
-                39074 Chilpancingo de los Bravo, Gro.
+                Av. 5 de febrero numero 27 barrio de san antonio,<br />
+                39069 Chilpancingo de los Bravo, Gro.
               </p>
               <p className="text-gray-400 mb-4">
-                <strong>Teléfono:</strong> (747) 123-4567
+                <strong>Teléfono:</strong> (747) 210-3016
+              </p>
+              <p className="text-gray-400 mb-4">
+                <strong>WhatsApp:</strong> (747) 210-3016
               </p>
               <p className="text-gray-400">
                 <strong>Horario:</strong><br />
-                Lunes a Domingo: 11:00 AM - 10:00 PM
+                Lunes a Sabado: 09:00 AM - 11:00 PM
+              </p>
+              <p className="text-gray-400">
+                Domingo: 09:00 AM - 09:00 PM
               </p>
             </div>
           </div>

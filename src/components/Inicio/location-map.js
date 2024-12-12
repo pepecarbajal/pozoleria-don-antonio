@@ -4,8 +4,7 @@ let isScriptLoaded = false;
 
 export default function LocationMap() {
   const[mapElement, setMapElement] = useState(null)
-  const location = { lat: 17.5519, lng: -99.5019 } // Coordenadas de Chilpancingo, Guerrero
-
+  const location = { lat: 17.5519529007685, lng: -99.49770885376654 } // Coordenadas de Chilpancingo, Guerrero
   useEffect(() => {
     if (!mapElement) return;
 

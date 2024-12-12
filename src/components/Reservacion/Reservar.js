@@ -15,7 +15,7 @@ export default function Reservar({ user }) {
     if (user) {
       setIsInitialLoading(false);
     }
-  }, [user]);
+  }, [user])
 
   useEffect(() => {
     if (!user) {
@@ -23,9 +23,15 @@ export default function Reservar({ user }) {
     }
   }, [user])
 
-  const generateTimeOptions = () => {
+  const generateTimeOptions = (selectedDate) => {
     const options = [];
-    for (let hour = 9; hour <= 21; hour += 2) {
+    if (!selectedDate) return options;
+
+    const isSunday = selectedDate.getDay() === 0;
+    const startHour = 9;
+    const endHour = isSunday ? 20 : 22;
+    
+    for (let hour = startHour; hour <= endHour; hour++) {
       options.push(`${hour.toString().padStart(2, '0')}:00`);
     }
     return options;
@@ -73,10 +79,19 @@ export default function Reservar({ user }) {
   }
 
   useEffect(() => {
-    if (date && time) {
+    if (date) {
+      const timeOptions = generateTimeOptions(date);
+      if (!timeOptions.includes(time)) {
+        setTime(timeOptions[0]);
+      }
       obtenerMesasDisponibles(date, time);
     }
-  }, [date, time])
+  }, [date, time]);
+
+  const handleDateChange = (e) => {
+    const selectedDate = new Date(e.target.value + 'T00:00:00');
+    setDate(selectedDate);
+  };
 
   const handleReserve = async () => {
     if (!user) {
@@ -135,7 +150,7 @@ export default function Reservar({ user }) {
       setDate(null)
       setTime("09:00")
       // Actualizar mesas disponibles
-      obtenerMesasDisponibles(fechaFormateada, time)
+      obtenerMesasDisponibles(date, time)
     } catch (error) {
       console.error('Error al realizar la reserva:', error)
       let errorMessage = "Hubo un problema al realizar la reserva. ";
@@ -178,7 +193,7 @@ export default function Reservar({ user }) {
             type="date"
             id="date"
             value={date ? format(date, "yyyy-MM-dd") : ''}
-            onChange={(e) => setDate(new Date(e.target.value))}
+            onChange={handleDateChange}
             min={format(new Date(), "yyyy-MM-dd")}
             className="w-full px-3 py-2 border rounded-md text-black"
           />
@@ -193,7 +208,7 @@ export default function Reservar({ user }) {
               onChange={(e) => setTime(e.target.value)}
               className="w-full px-3 py-2 border rounded-md appearance-none text-black"
             >
-              {generateTimeOptions().map((option) => (
+              {generateTimeOptions(date).map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
