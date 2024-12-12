@@ -37,13 +37,7 @@ export default function Navbar() {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center py-2">
             <Link to="/" className="flex items-center">
-              <img
-                src="https://scontent.fcvj2-1.fna.fbcdn.net/v/t39.30808-6/331789825_1372905220222961_3007778894459459259_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeGA2BddaNUvCmDdES9Qje-mPGITOhHtWNc8YhM6Ee1Y16Z7VO_uNh7nmKxUeykTGIgh5qcB8ZJYveON8UtQ4k4X&_nc_ohc=QVbMJWAHoWsQ7kNvgFNYoUz&_nc_zt=23&_nc_ht=scontent.fcvj2-1.fna&_nc_gid=A6FzOG6-H-mZRQu9OvoMELE&oh=00_AYCGMRoMFIIT94Q5qdtxpqQY2dFgiEqdigZ28DW54Udq3A&oe=675979CC"
-                alt="Don Antonio Logo"
-                width={50}
-                height={50}
-                className="rounded-full"
-              />
+
               <span className="ml-2 text-xl sm:text-2xl font-bold text-white">Don Antonio</span>
             </Link>
             <div className="hidden md:flex gap-6">
