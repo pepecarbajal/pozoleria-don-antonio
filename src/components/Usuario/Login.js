@@ -14,7 +14,7 @@ export default function Login({ onLogin }) {
     setIsLoading(true)
 
     try {
-      console.log('Attempting login with:', { email }) // Log email for debugging
+      console.log('Attempting login with:', { email })
 
       const response = await fetch('https://serverreservaciones.onrender.com/usuarios/login', {
         method: 'POST',
@@ -28,7 +28,6 @@ export default function Login({ onLogin }) {
       })
 
       const data = await response.json()
-      console.log('Login response:', data) // Log full response for debugging
 
       if (response.ok) {
         toast.success(`Inicio de sesión exitoso. Bienvenido, ${data.nombreCompleto}`)
@@ -156,7 +155,7 @@ export default function Login({ onLogin }) {
               <span className="text-gray-400">¿No tienes cuenta?</span>{' '}
               <button 
                 type="button"
-                onClick={() => navigate('/register')} 
+                onClick={() => navigate('/registrar')} 
                 className="text-red-400 hover:text-red-300 font-medium focus:outline-none"
               >
                 Regístrate

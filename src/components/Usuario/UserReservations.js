@@ -77,11 +77,11 @@ export default function UserReservations({ user }) {
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {reservations.map((reservation) => (
-            <div key={reservation._id} className="bg-gray-800 rounded-lg shadow-md overflow-hidden">
+            <div key={reservation._id} className="bg-gray-100 rounded-lg shadow-md overflow-hidden">
               <div className="p-6">
                 <h2 className="text-xl font-semibold mb-2">Mesa {reservation.numeroMesa}</h2>
-                <p className="text-gray-300"><strong>Fecha:</strong> {format(new Date(reservation.fecha), "PPP", { locale: es })}</p>
-                <p className="text-gray-300"><strong>Hora:</strong> {reservation.hora}</p>
+                <p className="text-gray-900"><strong>Fecha:</strong> {format(new Date(reservation.fecha), "PPP", { locale: es })}</p>
+                <p className="text-gray-900"><strong>Hora:</strong> {reservation.hora}</p>
                 <button 
                   onClick={() => {
                     setReservationToCancel(reservation);

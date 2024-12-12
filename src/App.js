@@ -41,7 +41,7 @@ function App() {
         <Route path="/reservar" element={<Reservar user={user} />} />
         <Route path="/reservaciones" element={<UserReservations user={user} />} />
         <Route path="/iniciar-sesion" element={<Login onLogin={handleLogin} />} />
-        <Route path="/registrarse" element={<Register />} />
+        <Route path="/registrar" element={<Register />} />
         <Route path="/administrador" element={<Administrador />} />
       </Routes>
       <ToastContainer />

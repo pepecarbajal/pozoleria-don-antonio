@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom'
+import fondo from '../../img/icono.jpg'
 
-export default function Register({ onSwitchToLogin }) {
+export default function Register() {
   const [nombreCompleto, setNombreCompleto] = useState('')
   const [email, setEmail] = useState('')
   const [telefono, setTelefono] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -29,7 +32,6 @@ export default function Register({ onSwitchToLogin }) {
       })
       if (response.ok) {
         toast.success('Registro exitoso')
-        onSwitchToLogin()
       } else {
         const errorData = await response.json()
         toast.error(`Error en el registro: ${errorData.message || 'Ocurrió un error desconocido'}`)
@@ -46,9 +48,9 @@ export default function Register({ onSwitchToLogin }) {
       <div className="lg:w-2/3 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent z-10" />
         <img
-          src="https://scontent.fcvj2-1.fna.fbcdn.net/v/t39.30808-6/331789825_1372905220222961_3007778894459459259_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeGA2BddaNUvCmDdES9Qje-mPGITOhHtWNc8YhM6Ee1Y16Z7VO_uNh7nmKxUeykTGIgh5qcB8ZJYveON8UtQ4k4X&_nc_ohc=QVbMJWAHoWsQ7kNvgFNYoUz&_nc_zt=23&_nc_ht=scontent.fcvj2-1.fna&_nc_gid=A6FzOG6-H-mZRQu9OvoMELE&oh=00_AYCGMRoMFIIT94Q5qdtxpqQY2dFgiEqdigZ28DW54Udq3A&oe=675979CC"
+          src={fondo}
           alt="Restaurant Food"
-          className="w-full h-full object-cover"
+          className="w-full h-full max-h-screen object-cover"
         />
       </div>
 
@@ -175,7 +177,7 @@ export default function Register({ onSwitchToLogin }) {
               <span className="text-gray-400">¿Ya tienes cuenta?</span>{' '}
               <button 
                 type="button"
-                onClick={onSwitchToLogin} 
+                onClick={() => navigate('/iniciar-sesion')} 
                 className="text-red-400 hover:text-red-300 font-medium focus:outline-none"
               >
                 Inicia sesión
