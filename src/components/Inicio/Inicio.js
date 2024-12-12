@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Phone, MessageCircle } from 'lucide-react'
 import FloatingParticles from "./floating-particles"
 import MenuTabs from "./menu-tabs"
 import LocationMap from "./location-map"
@@ -167,16 +168,20 @@ export default function Inicio() {
             <div className="flex-1 flex flex-col justify-center">
               <h3 className="text-xl sm:text-2xl font-semibold mb-4">Restaurante Don Antonio</h3>
               <p className="text-gray-400 mb-4">
-                Av. 5 de febrero numero 27 barrio de san antonio,<br />
+                Av. 5 de febrero N°27 barrio de San Antonio,<br />
                 39069 Chilpancingo de los Bravo, Gro.
               </p>
-              <p className="text-gray-400 mb-4">
-                <strong>Teléfono:</strong> (747) 210-3016
-              </p>
-              <p className="text-gray-400 mb-4">
-                <strong>WhatsApp:</strong> (747) 210-3016
-              </p>
-              <p className="text-gray-400">
+              <div className="space-y-2">
+                <p className="text-gray-400 flex items-center gap-2">
+                  <Phone size={18} />
+                  <strong>Teléfono:</strong> (747) 210-3016
+                </p>
+                <p className="text-gray-400 flex items-center gap-2">
+                  <MessageCircle size={18} />
+                  <strong>WhatsApp:</strong> (747) 210-3016
+                </p>
+              </div>
+              <p className="text-gray-400 mt-4">
                 <strong>Horario:</strong><br />
                 Lunes a Sabado: 09:00 AM - 11:00 PM
               </p>
