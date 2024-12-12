@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { format, parse } from 'date-fns'
+import { format, parse, addDays } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { toast } from 'react-toastify'
 
@@ -90,7 +90,15 @@ export default function Reservar({ user }) {
 
   const handleDateChange = (e) => {
     const selectedDate = new Date(e.target.value + 'T00:00:00');
-    setDate(selectedDate);
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+    
+    if (selectedDate >= tomorrow) {
+      setDate(selectedDate);
+    } else {
+      toast.error("Por favor, seleccione una fecha a partir de mañana.");
+    }
   };
 
   const handleReserve = async () => {
@@ -194,7 +202,7 @@ export default function Reservar({ user }) {
             id="date"
             value={date ? format(date, "yyyy-MM-dd") : ''}
             onChange={handleDateChange}
-            min={format(new Date(), "yyyy-MM-dd")}
+            min={format(addDays(new Date(), 1), "yyyy-MM-dd")}
             className="w-full px-3 py-2 border rounded-md text-black"
           />
         </div>

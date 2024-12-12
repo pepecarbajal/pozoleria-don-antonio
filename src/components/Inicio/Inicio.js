@@ -4,6 +4,7 @@ import FloatingParticles from "./floating-particles"
 import MenuTabs from "./menu-tabs"
 import LocationMap from "./location-map"
 import HeroCarousel from "./hero-carousel"
+import { toast } from 'react-toastify'
 
 const menuItems = [
   {
@@ -94,6 +95,19 @@ const menuItems = [
 
 export default function Inicio() {
   const [activeTab, setActiveTab] = useState('todos')
+  const [comments, setComments] = useState([])
+  const [newComment, setNewComment] = useState('')
+
+  const handleCommentSubmit = (e) => {
+    e.preventDefault()
+    if (newComment.trim()) {
+      setComments([...comments, { text: newComment, date: new Date() }])
+      setNewComment('')
+      toast.success('Comentario agregado exitosamente')
+    } else {
+      toast.error('Por favor, ingrese un comentario válido')
+    }
+  }
 
   return (
     <main className="min-h-screen bg-black text-white relative overflow-hidden">
@@ -190,6 +204,35 @@ export default function Inicio() {
               <p className="text-gray-400">
                 Domingo: 09:00 AM - 09:00 PM
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Comments Section */}
+      <section id="comentarios" className="py-12 sm:py-20 bg-black/50 backdrop-blur-sm">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center">Deja tu comentario</h2>
+          <div className="max-w-2xl mx-auto">
+            <form onSubmit={handleCommentSubmit} className="mb-8">
+              <textarea
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                className="w-full p-2 text-black rounded-md mb-4"
+                rows="4"
+                placeholder="Escribe tu comentario aquí..."
+              ></textarea>
+              <button type="submit" className="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition-colors">
+                Enviar comentario
+              </button>
+            </form>
+            <div className="space-y-4">
+              {comments.map((comment, index) => (
+                <div key={index} className="bg-gray-900 rounded-lg p-4">
+                  <p className="text-gray-300 mb-2">{comment.text}</p>
+                  <p className="text-xs text-gray-500">{comment.date.toLocaleString()}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>

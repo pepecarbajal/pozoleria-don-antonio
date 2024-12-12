@@ -34,7 +34,10 @@ export default function Administrador() {
   }, [fetchReservations]);
 
   const handleDateChange = (newDate) => {
-    setDate(new Date(newDate));
+    const selectedDate = new Date(newDate + 'T00:00:00');
+    const timezoneOffset = selectedDate.getTimezoneOffset() * 60000;
+    const adjustedDate = new Date(selectedDate.getTime() + timezoneOffset);
+    setDate(adjustedDate);
   };
 
   const handleCancelReservation = async (reservationId) => {

@@ -32,6 +32,8 @@ export default function Register() {
       })
       if (response.ok) {
         toast.success('Registro exitoso')
+        navigate('/iniciar-sesion')
+        //window.location.reload()
       } else {
         const errorData = await response.json()
         toast.error(`Error en el registro: ${errorData.message || 'Ocurrió un error desconocido'}`)
