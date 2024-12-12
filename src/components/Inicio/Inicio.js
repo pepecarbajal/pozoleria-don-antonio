@@ -108,7 +108,8 @@ export default function Inicio() {
                 <span className="text-red-600">Pozoleria</span> Don Antonio
               </h1>
               <p className="text-xl sm:text-2xl text-gray-300 mb-6 sm:mb-8">
-                Tradición servida en cada cucharada. 🌽🍲
+                🌮 <strong>Sabores auténticos de México en tu mesa</strong> 🌽<br />
+                Disfruta de comida mexicana tipo casera, preparada con amor y a precios que cuidan tu bolsillo. ¡Ven y déjate conquistar por nuestras tradiciones! 🍲✨
               </p>
               <div className="flex justify-center lg:justify-start">
                 <a href="#menu" className="bg-red-600 text-white px-6 py-3 rounded-full hover:bg-red-700 transition-colors">
@@ -123,6 +124,7 @@ export default function Inicio() {
           </div>
         </div>
       </div>
+
 
       {/* Menu Section */}
       <section id="menu" className="bg-black/50 backdrop-blur-sm py-12 sm:py-20">

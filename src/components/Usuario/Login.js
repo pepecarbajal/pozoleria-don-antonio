@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import fondo from '../../img/icono.jpg'
 
-export default function Login({ onSwitchToRegister, onLogin }) {
+export default function Login({ onLogin }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -36,7 +36,6 @@ export default function Login({ onSwitchToRegister, onLogin }) {
           ...data,
           administrador: data.administrador // Asegúrate de que este campo exista en la respuesta del servidor
         })
-        navigate('/');
       } else {
         let errorMessage = "Error al iniciar sesión. Por favor, intente de nuevo."
         if (data.error === "Usuario no encontrado.") {
@@ -157,7 +156,7 @@ export default function Login({ onSwitchToRegister, onLogin }) {
               <span className="text-gray-400">¿No tienes cuenta?</span>{' '}
               <button 
                 type="button"
-                onClick={onSwitchToRegister} 
+                onClick={() => navigate('/register')} 
                 className="text-red-400 hover:text-red-300 font-medium focus:outline-none"
               >
                 Regístrate

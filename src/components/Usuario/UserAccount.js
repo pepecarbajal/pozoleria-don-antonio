@@ -1,6 +1,10 @@
 import React from 'react'
 
 export default function UserAccount({ user, onClose, onLogout }) {
+  if (!user) {
+    return null; // Don't render anything if there's no user
+  }
+
   return (
     <div className="w-full max-w-md mx-auto bg-black text-white p-6 rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold text-red-600 mb-6">Cuenta de Usuario</h2>

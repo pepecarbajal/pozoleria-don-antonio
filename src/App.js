@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Inicio from './components/Inicio/Inicio';
 import Reservar from './components/Reservacion/Reservar';
@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -23,11 +24,13 @@ function App() {
   const handleLogin = (userData) => {
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
+    navigate('/');
   };
 
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem('user');
+    navigate('/');
   };
 
   return (
