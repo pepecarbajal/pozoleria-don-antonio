@@ -38,7 +38,7 @@ export default function Navbar() {
           <div className="flex justify-between items-center py-2">
             <Link to="/" className="flex items-center">
 
-              <span className="ml-2 text-xl sm:text-2xl font-bold text-white">Don Antonio</span>
+              <span className="ml-2 text-xl sm:text-2xl font-bold text-white">Restaurante Don Antonio</span>
             </Link>
             <div className="hidden md:flex gap-6">
               <Link to="/" className="text-gray-300 hover:text-white transition-colors">Inicio</Link>

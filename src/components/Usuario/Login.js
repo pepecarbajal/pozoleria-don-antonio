@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import fondo from '../../img/icono.jpg'
 
 export default function Login({ onSwitchToRegister, onLogin }) {
   const [email, setEmail] = useState('')
@@ -58,9 +59,9 @@ export default function Login({ onSwitchToRegister, onLogin }) {
       <div className="lg:w-2/3 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-black to-transparent z-10" />
         <img
-          src="https://scontent.fcvj2-1.fna.fbcdn.net/v/t39.30808-6/331789825_1372905220222961_3007778894459459259_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeGA2BddaNUvCmDdES9Qje-mPGITOhHtWNc8YhM6Ee1Y16Z7VO_uNh7nmKxUeykTGIgh5qcB8ZJYveON8UtQ4k4X&_nc_ohc=QVbMJWAHoWsQ7kNvgFNYoUz&_nc_zt=23&_nc_ht=scontent.fcvj2-1.fna&_nc_gid=A6FzOG6-H-mZRQu9OvoMELE&oh=00_AYCGMRoMFIIT94Q5qdtxpqQY2dFgiEqdigZ28DW54Udq3A&oe=675979CC"
+          src={fondo}
           alt="Restaurant Food"
-          className="w-full h-full object-cover"
+          className="w-full h-full max-h-screen object-cover"
         />
       </div>
 
