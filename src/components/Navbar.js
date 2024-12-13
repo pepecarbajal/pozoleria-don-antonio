@@ -1,21 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import UserAccount from "./Usuario/UserAccount";
 import logo from "../img/logo-don-antonio.jpg"
 
+const MobileMenu = ({ isOpen, onClose, user, onShowUserAccount }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="md:hidden bg-black/95 backdrop-blur-sm">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex flex-col gap-4">
+          <Link to="/" className="text-gray-300 hover:text-white transition-colors text-left" onClick={onClose}>Inicio</Link>
+          {user && (
+            <Link to="/reservar" className="text-gray-300 hover:text-white transition-colors text-left" onClick={onClose}>Reservar</Link>
+          )}
+          {user && !user.administrador && (
+            <Link to="/reservaciones" className="text-gray-300 hover:text-white transition-colors text-left" onClick={onClose}>Reservaciones</Link>
+          )}
+          {user && user.administrador && (
+            <Link to="/administrador" className="text-gray-300 hover:text-white transition-colors text-left" onClick={onClose}>Administrador</Link>
+          )}
+          {user ? (
+            <button onClick={() => { onShowUserAccount(); onClose(); }} className="text-gray-300 hover:text-white transition-colors text-left focus:outline-none">
+              Cuenta
+            </button>
+          ) : (
+            <Link to="/iniciar-sesion" className="text-gray-300 hover:text-white transition-colors text-left" onClick={onClose}>Iniciar sesión</Link>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function Navbar({ user, onLogout }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showUserAccount, setShowUserAccount] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = useCallback(() => {
+    setIsMenuOpen(prev => !prev);
+  }, []);
 
-  const handleLogout = () => {
+  const handleShowUserAccount = useCallback(() => {
+    setShowUserAccount(true);
+  }, []);
+
+  const handleCloseUserAccount = useCallback(() => {
+    setShowUserAccount(false);
+  }, []);
+
+  const handleLogout = useCallback(() => {
     onLogout();
     setShowUserAccount(false);
-  };
+  }, [onLogout]);
 
   return (
     <>
@@ -40,12 +78,11 @@ export default function Navbar({ user, onLogout }) {
               {user && !user.administrador && (
                 <Link to="/reservaciones" className="text-gray-300 hover:text-white transition-colors">Reservaciones</Link>
               )}
-
               {user && user.administrador && (
                 <Link to="/administrador" className="text-gray-300 hover:text-white transition-colors">Administrador</Link>
               )}
               {user ? (
-                <button onClick={() => setShowUserAccount(true)} className="text-gray-300 hover:text-white transition-colors focus:outline-none">
+                <button onClick={handleShowUserAccount} className="text-gray-300 hover:text-white transition-colors focus:outline-none">
                   Cuenta
                 </button>
               ) : (
@@ -55,40 +92,24 @@ export default function Navbar({ user, onLogout }) {
             <button
               className="md:hidden text-white focus:outline-none"
               onClick={toggleMenu}
+              aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
-        {isMenuOpen && (
-          <div className="md:hidden bg-black/95 backdrop-blur-sm">
-            <div className="container mx-auto px-4 py-4">
-              <div className="flex flex-col gap-4">
-                <Link to="/" className="text-gray-300 hover:text-white transition-colors text-left" onClick={toggleMenu}>Inicio</Link>
-                <Link to="/reservar" className="text-gray-300 hover:text-white transition-colors text-left" onClick={toggleMenu}>Reservar</Link>
-                {user && (
-                  <Link to="/reservaciones" className="text-gray-300 hover:text-white transition-colors text-left" onClick={toggleMenu}>Reservaciones</Link>
-                )}
-                {user && user.administrador && (
-                  <Link to="/administrador" className="text-gray-300 hover:text-white transition-colors text-left" onClick={toggleMenu}>Administrador</Link>
-                )}
-                {user ? (
-                  <button onClick={() => { setShowUserAccount(true); toggleMenu(); }} className="text-gray-300 hover:text-white transition-colors text-left focus:outline-none">
-                    Cuenta
-                  </button>
-                ) : (
-                  <Link to="/iniciar-sesion" className="text-gray-300 hover:text-white transition-colors text-left" onClick={toggleMenu}>Iniciar sesión</Link>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
+        <MobileMenu 
+          isOpen={isMenuOpen} 
+          onClose={toggleMenu} 
+          user={user} 
+          onShowUserAccount={handleShowUserAccount}
+        />
       </nav>
       {showUserAccount && user && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <UserAccount
             user={user}
-            onClose={() => setShowUserAccount(false)}
+            onClose={handleCloseUserAccount}
             onLogout={handleLogout}
           />
         </div>

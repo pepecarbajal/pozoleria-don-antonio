@@ -4,8 +4,8 @@ import FloatingParticles from "./floating-particles"
 import MenuTabs from "./menu-tabs"
 import LocationMap from "./location-map"
 import HeroCarousel from "./hero-carousel"
-import { toast } from 'react-toastify'
-
+import Comentarios from "../comentarios"
+ 
 const menuItems = [
   {
     name: "Pozole Rojo Tradicional",
@@ -93,21 +93,12 @@ const menuItems = [
   }
 ]
 
-export default function Inicio() {
+export default function Inicio({ user }) {
   const [activeTab, setActiveTab] = useState('todos')
-  const [comments, setComments] = useState([])
-  const [newComment, setNewComment] = useState('')
-
-  const handleCommentSubmit = (e) => {
-    e.preventDefault()
-    if (newComment.trim()) {
-      setComments([...comments, { text: newComment, date: new Date() }])
-      setNewComment('')
-      toast.success('Comentario agregado exitosamente')
-    } else {
-      toast.error('Por favor, ingrese un comentario válido')
-    }
-  }
+  const initialComments = [
+    { id: 1, name: "María González", text: "¡El pozole verde es increíble! Definitivamente volveré por más.", date: new Date("2023-05-15T14:30:00") },
+    { id: 2, name: "Juan Pérez", text: "Excelente servicio y ambiente. Los tacos dorados son mi nueva obsesión.", date: new Date("2023-05-20T19:45:00") }
+  ]
 
   return (
     <main className="min-h-screen bg-black text-white relative overflow-hidden">
@@ -116,29 +107,21 @@ export default function Inicio() {
       {/* Hero Section */}
       <div className="relative pt-10 sm:pt-20 pb-16 sm:pb-32">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-            <div className="flex-1 relative z-10 text-center lg:text-left">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
-                <span className="text-red-600">Pozoleria</span> Don Antonio
-              </h1>
-              <p className="text-xl sm:text-2xl text-gray-300 mb-6 sm:mb-8">
-                🌮 <strong>Sabores auténticos de México en tu mesa</strong> 🌽<br />
-                Disfruta de comida mexicana tipo casera, preparada con amor y a precios que cuidan tu bolsillo. ¡Ven y déjate conquistar por nuestras tradiciones! 🍲✨
-              </p>
-              <div className="flex justify-center lg:justify-start">
+          <HeroCarousel 
+            items={menuItems} 
+            buttons={
+              <>
                 <a href="#menu" className="bg-red-600 text-white px-6 py-3 rounded-full hover:bg-red-700 transition-colors">
                   Ver Menú
                 </a>
-              </div>
-            </div>
-
-            <div className="flex-1 relative w-full max-w-lg lg:max-w-none mx-auto">
-              <HeroCarousel items={menuItems} />
-            </div>
-          </div>
+                <a href="#ubicacion" className="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-colors border border-white">
+                  Información
+                </a>
+              </>
+            }
+          />
         </div>
       </div>
-
 
       {/* Menu Section */}
       <section id="menu" className="bg-black/50 backdrop-blur-sm py-12 sm:py-20">
@@ -210,33 +193,7 @@ export default function Inicio() {
       </section>
 
       {/* Comments Section */}
-      <section id="comentarios" className="py-12 sm:py-20 bg-black/50 backdrop-blur-sm">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center">Deja tu comentario</h2>
-          <div className="max-w-2xl mx-auto">
-            <form onSubmit={handleCommentSubmit} className="mb-8">
-              <textarea
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                className="w-full p-2 text-black rounded-md mb-4"
-                rows="4"
-                placeholder="Escribe tu comentario aquí..."
-              ></textarea>
-              <button type="submit" className="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-700 transition-colors">
-                Enviar comentario
-              </button>
-            </form>
-            <div className="space-y-4">
-              {comments.map((comment, index) => (
-                <div key={index} className="bg-gray-900 rounded-lg p-4">
-                  <p className="text-gray-300 mb-2">{comment.text}</p>
-                  <p className="text-xs text-gray-500">{comment.date.toLocaleString()}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <Comentarios user={user} initialComments={initialComments} />
     </main>
   )
 }
