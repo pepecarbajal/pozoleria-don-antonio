@@ -1,3 +1,4 @@
+// src/components/Administrador/Administrador.js
 import React, { useState, useEffect, useCallback } from 'react'
 import { format, parseISO, addMinutes, isBefore } from "date-fns"
 import { es } from 'date-fns/locale'

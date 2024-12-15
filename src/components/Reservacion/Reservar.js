@@ -145,6 +145,31 @@ export default function Reservar({ user }) {
 
       const result = await response.json()
 
+      try {
+        const emailResponse = await fetch('https://serverreservaciones.onrender.com/enviar/correo', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            to: user.correo,
+            message: `
+              Reservación Confirmada
+              Mesa: ${result.numeroMesa}
+              Fecha: ${format(date, "PPP", { locale: es })}
+              Hora: ${time}
+              Reservado por: ${user.nombreCompleto}
+            `
+          }),
+        });
+
+        if (!emailResponse.ok) {
+          console.error('Error al enviar el correo de confirmación');
+        }
+      } catch (error) {
+        console.error('Error al enviar el correo:', error);
+      }
+
       toast.success(
         <div>
           <p>Su reserva ha sido confirmada con los siguientes detalles:</p>
