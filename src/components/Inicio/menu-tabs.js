@@ -1,3 +1,4 @@
+// src/components/Inicio/menu-tabs.js
 import React, { useState } from 'react'
 
 export default function MenuTabs({ setActiveTab }) {

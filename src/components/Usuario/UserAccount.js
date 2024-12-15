@@ -1,3 +1,4 @@
+// src/components/Usuario/UserAccount.js
 import React from 'react'
 
 export default function UserAccount({ user, onClose, onLogout }) {

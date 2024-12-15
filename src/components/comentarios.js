@@ -1,29 +1,54 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 
-export default function Comentarios({ user, initialComments }) {
-  console.log("User prop in Comentarios:", user);
-  console.log("User is truthy:", !!user);
-  const [comments, setComments] = useState(initialComments)
+export default function Comentarios({ user, comments = [], isLoading }) {
   const [newComment, setNewComment] = useState('')
 
-  const handleCommentSubmit = (e) => {
+  const handleCommentSubmit = async (e) => {
     e.preventDefault()
     if (user && newComment.trim()) {
-      const newCommentObj = {
-        id: comments.length + 1,
-        name: user.nombreCompleto,
-        text: newComment,
-        date: new Date()
+      try {
+        const response = await fetch('https://serverreservaciones.onrender.com/comentarios/comentar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: user.nombreCompleto,
+            text: newComment,
+          }),
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to submit comment')
+        }
+
+        toast.success('Comentario agregado exitosamente')
+        setNewComment('')
+        // Aquí deberías actualizar la lista de comentarios
+        // Podrías hacerlo recargando todos los comentarios o añadiendo el nuevo comentario a la lista existente
+      } catch (error) {
+        console.error('Error submitting comment:', error)
+        toast.error('No se pudo agregar el comentario. Por favor, intente de nuevo más tarde.')
       }
-      setComments([...comments, newCommentObj])
-      setNewComment('')
-      toast.success('Comentario agregado exitosamente')
     } else if (!user) {
       toast.error('Debes iniciar sesión para comentar')
     } else {
       toast.error('Por favor, ingrese un comentario válido')
     }
+  }
+
+  if (isLoading) {
+    return (
+      <section id="comentarios" className="py-12 sm:py-20 bg-black/50 backdrop-blur-sm">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center">Comentarios de nuestros clientes</h2>
+          <div className="max-w-2xl mx-auto text-center">
+            Cargando comentarios...
+          </div>
+        </div>
+      </section>
+    )
   }
 
   return (
@@ -47,13 +72,18 @@ export default function Comentarios({ user, initialComments }) {
             </form>
           )}
           <div className="space-y-4">
-            {comments.map((comment) => (
-              <div key={comment.id} className="bg-gray-900 rounded-lg p-4">
-                <p className="font-semibold text-red-400 mb-1">{comment.name}</p>
-                <p className="text-gray-300 mb-2">{comment.text}</p>
-                <p className="text-xs text-gray-500">{comment.date.toLocaleString()}</p>
-              </div>
-            ))}
+            {comments && comments.length > 0 ? (
+              console.log(comments),
+              comments.map((comment) => (
+                <div key={comment._id} className="bg-gray-900 rounded-lg p-4">
+                  <p className="font-semibold text-red-400 mb-1">{comment.nombre}</p>
+                  <p className="text-gray-300 mb-2">{comment.comentario}</p>
+                  <p className="text-xs text-gray-500">{new Date(comment.fecha).toLocaleString()}</p>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-400">No hay comentarios aún.</p>
+            )}
           </div>
         </div>
       </div>

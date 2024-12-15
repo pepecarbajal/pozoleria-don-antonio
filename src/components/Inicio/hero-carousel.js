@@ -1,4 +1,4 @@
-'use client'
+// src/components/Inicio/hero-carousel.js
 
 import { useState, useEffect } from 'react'
 

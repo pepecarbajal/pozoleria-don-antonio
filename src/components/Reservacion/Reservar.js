@@ -1,3 +1,4 @@
+// src/components/Reservacion/Reservar.js
 import React, { useState, useEffect } from 'react'
 import { format, parse, addDays } from 'date-fns'
 import { es } from 'date-fns/locale'

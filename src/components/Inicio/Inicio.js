@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Phone, MessageCircle } from 'lucide-react'
 import FloatingParticles from "./floating-particles"
 import MenuTabs from "./menu-tabs"
@@ -95,10 +95,27 @@ const menuItems = [
 
 export default function Inicio({ user }) {
   const [activeTab, setActiveTab] = useState('todos')
-  const initialComments = [
-    { id: 1, name: "María González", text: "¡El pozole verde es increíble! Definitivamente volveré por más.", date: new Date("2023-05-15T14:30:00") },
-    { id: 2, name: "Juan Pérez", text: "Excelente servicio y ambiente. Los tacos dorados son mi nueva obsesión.", date: new Date("2023-05-20T19:45:00") }
-  ]
+  const [comments, setComments] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const response = await fetch('https://serverreservaciones.onrender.com/comentarios/comentarios')
+        if (!response.ok) {
+          throw new Error('Failed to fetch comments')
+        }
+        const data = await response.json()
+        setComments(data || [])
+      } catch (error) {
+        console.error('Error fetching comments:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchComments()
+  }, [])
 
   return (
     <main className="min-h-screen bg-black text-white relative overflow-hidden">
@@ -193,7 +210,7 @@ export default function Inicio({ user }) {
       </section>
 
       {/* Comments Section */}
-      <Comentarios user={user} initialComments={initialComments} />
+      <Comentarios user={user} comments={comments} isLoading={isLoading} />
     </main>
   )
 }
