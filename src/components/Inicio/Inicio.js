@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Phone, MessageCircle } from 'lucide-react'
 import FloatingParticles from "./floating-particles"
 import MenuTabs from "./menu-tabs"
@@ -93,29 +93,41 @@ const menuItems = [
   }
 ]
 
-export default function Inicio({ user }) {
+export default function Inicio() {
   const [activeTab, setActiveTab] = useState('todos')
   const [comments, setComments] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [user, setUser] = useState(null)
+
+  const fetchComments = useCallback(async () => {
+    try {
+      setIsLoading(true)
+      const response = await fetch('https://serverreservaciones.onrender.com/comentarios/comentarios')
+      if (!response.ok) {
+        throw new Error('Failed to fetch comments')
+      }
+      const data = await response.json()
+      const formattedComments = Array.isArray(data) ? data.map(comment => ({
+        ...comment,
+        date: comment.date ? new Date(comment.date).toISOString() : new Date().toISOString()
+      })) : []
+      setComments(formattedComments)
+    } catch (error) {
+      console.error('Error fetching comments:', error)
+      setComments([])
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
 
   useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const response = await fetch('https://serverreservaciones.onrender.com/comentarios/comentarios')
-        if (!response.ok) {
-          throw new Error('Failed to fetch comments')
-        }
-        const data = await response.json()
-        setComments(data || [])
-      } catch (error) {
-        console.error('Error fetching comments:', error)
-      } finally {
-        setIsLoading(false)
-      }
+    const storedUser = localStorage.getItem('user')
+    if (storedUser) {
+      setUser(JSON.parse(storedUser))
     }
 
     fetchComments()
-  }, [])
+  }, [fetchComments])
 
   return (
     <main className="min-h-screen bg-black text-white relative overflow-hidden">
@@ -132,7 +144,7 @@ export default function Inicio({ user }) {
                   Ver Menú
                 </a>
                 <a href="#ubicacion" className="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition-colors border border-white">
-                  Información
+                  Ubicación
                 </a>
               </>
             }
@@ -210,7 +222,12 @@ export default function Inicio({ user }) {
       </section>
 
       {/* Comments Section */}
-      <Comentarios user={user} comments={comments} isLoading={isLoading} />
+      <Comentarios 
+        user={user} 
+        comments={comments} 
+        isLoading={isLoading} 
+        onCommentAdded={fetchComments} 
+      />
     </main>
   )
 }
