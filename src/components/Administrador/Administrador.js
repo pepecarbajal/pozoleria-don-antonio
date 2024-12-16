@@ -1,4 +1,3 @@
-// src/components/Administrador/Administrador.js
 import React, { useState, useEffect, useCallback } from 'react'
 import { format, parseISO, addMinutes, isBefore } from "date-fns"
 import { es } from 'date-fns/locale'
@@ -36,9 +35,7 @@ export default function Administrador() {
 
   const handleDateChange = (newDate) => {
     const selectedDate = new Date(newDate + 'T00:00:00');
-    const timezoneOffset = selectedDate.getTimezoneOffset() * 60000;
-    const adjustedDate = new Date(selectedDate.getTime() + timezoneOffset);
-    setDate(adjustedDate);
+    setDate(selectedDate);
   };
 
   const handleCancelReservation = async (reservationId) => {
@@ -126,7 +123,7 @@ export default function Administrador() {
                 <tr key={reservation._id} className="border-b border-gray-700">
                   <td className="p-2">{reservation.numeroMesa}</td>
                   <td className="p-2">{reservation.reservadoPor}</td>
-                  <td className="p-2">{format(new Date(reservation.fecha), "dd/MM/yyyy")}</td>
+                  <td className="p-2">{format(new Date(reservation.fecha + 'T00:00:00'), "dd/MM/yyyy")}</td>
                   <td className="p-2">{reservation.hora}</td>
                   <td className="p-2">
                     {reservation.cancelada ? (
@@ -150,6 +147,7 @@ export default function Administrador() {
           </tbody>
         </table>
       </div>
+      {console.log('Reservations:', reservations.map(r => ({ ...r, fecha: new Date(r.fecha + 'T00:00:00').toISOString() })))}
     </div>
   )
 }
